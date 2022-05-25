@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="">
+    <style>
+        *{
+            box-sizing: border-box;
+            margin:0;
+            padding:0;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        body{
+            background-color:#0333;
+        }
+        .chartbox{
+            width:max-width;
+            padding: 20px;
+        }
+        #inputdesign{
+            border:1px solid black;
+            padding:5px 10px;
+            margin:5px;
+        }
+        table,th,td{
+            border:2px solid black;
+            border-collapse: collapse;
+            padding: 5px 2px;
+        }
+        table.a{
+         margin-left: auto;
+        margin-right: auto;
+        width: 600px;
+}
+td{
+    width:500px;
+    margin-left: 5px;
+}
+
+    </style>
+        
+  </head>
+  <body>
+    <h1><center><u>TRANSFORMING THE DATA TO CHARTS</u> </center></h1>
+    <br>
+      
+    <table class="a">
+        <tr>
+        <th>name of the sport:</th>
+        <th>number of votes received:</th>
+        </tr>
+        <tr>
+            <td><input type="text" placeholder="sport" id="inputdata" ></td>
+            <td><input type="number" placeholder="no. of votes" id="inputnumber"></td>
+            <TD><input type="text" placeholder="color of the bar" id="inputcolor"></TD>
+            <td><input type="TEXT" placeholder="update exisiting value" id="vote"></td>
+            </tr>
+          
+    </table>
+    <br>
+    <CENTER><button onclick="updateChart()" style="padding:4PX">ADD DATA</button></CENTER><br>
+    <center><button onclick="upvote()" style="padding:4PX">UPDATE DATA</button></center><BR>
+    <center><button onclick="removeData()"style="padding:4PX">REMOVE DATA</button></center>
+
+    
+    <div class="chartbox">
+         <canvas id="myChart"></canvas>
+         </div>
+
+         
+    <script src="./chart.min.js"></script>
+    <script>
+
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['basketball','cricket'],
+        datasets: [{
+            label: '# of Votes',
+            data: [24,10],
+          
+            backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+
+            
+        ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+function updateChart()
+        {
+            const inputdata = document.getElementById('inputdata');
+            const inputnumber = document.getElementById('inputnumber');
+            const inputcolor = document.getElementById('inputcolor');
+
+            myChart.data.datasets[0].data.push(inputnumber.value);
+            myChart.data.datasets[0].backgroundColor.push(inputcolor.value);
+            myChart.data.labels.push(inputdata.value);
+            myChart.update()
+        }
+        function Upvote()
+        {
+            let voteIndex=myChart.data.labels.indexOf(document.getElementById('vote').value);
+            myChart.data.datasets[0].data[voteIndex]+= 1;
+            myChart.update();
+        }
+        function removeData()
+        {
+            myChart.data.labels.pop();
+            myChart.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+            });
+            myChart.update();  
+        }
+      </script>
+      
+
+</body>
+</html>
